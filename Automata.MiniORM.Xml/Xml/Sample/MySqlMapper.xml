@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<mapper xsi:noNamespaceSchemaLocation="../DTD/SqlMapper.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <select id="testsql" parameterType="object">
+    testtest
+    asdfe
+  </select>
+  <update id="testsql" parameterType="object">
+    testtest
+    <if test="a == '123'">
+      test23423 ${a}
+    </if>
+    <if test="a == '234'">
+      test23423
+    </if>
+    asdfe
+  </update>
+  <delete id="testsql" parameterType="object">
+    testtest
+    <if test="a == '123'">
+      test23423 ${a}
+    </if>
+    <if test="a == '234'">
+      test23423
+    </if>
+    asdfe
+  </delete>
+  <insert id="testsql" parameterType="object">
+    testtest
+    <if test="a == '123'">
+      test23423 ${a}
+    </if>
+    <if test="a == '234'">
+      test23423
+    </if>
+    asdfe
+  </insert>
+</mapper>
