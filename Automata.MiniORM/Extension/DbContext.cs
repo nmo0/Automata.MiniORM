@@ -34,11 +34,11 @@ namespace Automata.MiniORM
 
         public static DbContext Instance {
             get {
-                if (string.IsNullOrEmpty(sqlConnectionStr))
-                {
-                    //sqlConnectionStr = DBConfig.EPConnection();
-                    throw new Exception("No SqlConnectionString configuration");
-                }
+                //if (string.IsNullOrEmpty(sqlConnectionStr))
+                //{
+                //    //sqlConnectionStr = DBConfig.EPConnection();
+                //    throw new Exception("No SqlConnectionString configuration");
+                //}
                 return instance;
             }
         }
@@ -472,6 +472,28 @@ namespace Automata.MiniORM
                     var sql = GenerateSql(dbModel, action, false);
 
                     return conn.Query<T>(sql, dbModel);
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Execute Query
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="sql"></param>
+        /// <param name="param"></param>
+        /// <returns></returns>
+        public IEnumerable<T> Query<T>(string sql, object param)
+        {
+            using (var conn = new SqlConnection(sqlConnectionStr))
+            {
+                try
+                {
+                    return conn.Query<T>(sql, param);
                 }
                 catch (Exception e)
                 {

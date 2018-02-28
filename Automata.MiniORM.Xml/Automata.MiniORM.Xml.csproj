@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extension\DbSetExtensions.cs" />
     <Compile Include="Extension\JsonExtensions.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Test.cs" />
@@ -68,6 +69,12 @@
   <ItemGroup>
     <Content Include="help.txt" />
     <Content Include="Xml\Sample\MySqlMapper.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Automata.MiniORM\Automata.MiniORM.csproj">
+      <Project>{e7d14b89-dcdc-4e91-a1f9-831d45554d40}</Project>
+      <Name>Automata.MiniORM</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
