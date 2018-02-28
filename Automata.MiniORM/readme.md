@@ -6,6 +6,19 @@
 
 ## 说明
 一个轻量级ORM工具，基于Dapper.Net
+
+## Attributes
+
+### TableNameAttribute
+表示类的表名，不设置则默认为类名
+
+### SqlIgnoreAttribute
+生成的SQL语句将忽略这一个属性
+
+### SinceTheIncreaseAttribute
+表示自增列，Insert以及Update时将忽略，不修改
+
+
 ## Examples
 
 ### Example Class
