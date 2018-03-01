@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<mapper xsi:noNamespaceSchemaLocation="../DTD/SqlMapper.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <select id="SampleSqlMapper_01" parameterType="object">
+    select a.* from table_a as a
+    <if test="args.no !== null &amp;&amp; args.no !== ''">
+      left join table_b as b on b.sno = a.no where a.no like '%' + @no + '%'
+    </if>
+    <if test="!(args.no !== null &amp;&amp; args.no !== '')">
+      where a.status in ('Complete') and code = @code
+    </if>
+    and user = @user
+    <if test="args.date !== null"></if>
+    order by date desc
+  </select>
+</mapper>

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml;
 
@@ -26,14 +27,20 @@ namespace Automata.MiniORM.Xml
             return Get(key, new { });
         }
 
+        public static string GetScript(string key)
+        {
+            return _SqlCache[key].ScriptCode;
+        }
+
         public static string Get(string key, object param)
         {
             var code = _SqlCache[key];
 
             using (V8ScriptEngine engine = new V8ScriptEngine())
             {
-                return (string)engine.Evaluate(string.Format("var args={0};{1}", param.ToJSON(), code.ScriptCode));
-                //return engine.Script.sql;
+                var sql = (string)engine.Evaluate(string.Format("var args={0};{1}", param.ToJSON(), code.ScriptCode));
+
+                return sql.Trim();
             }
         }
 
@@ -76,13 +83,31 @@ namespace Automata.MiniORM.Xml
             }
         }
 
+        private static string FilterExpression(string text)
+        {
+            text = text.Replace("'", "\\'").Replace("\r\n", " ").Trim();
+
+            var reg = new Regex(@"#\{\w+(\.\w+)?\}");
+
+            text = reg.Replace(text, match => {
+                return string.Format("'+{0}+'", match.Value.Trim('#', '{', '}'));
+            });
+
+            return text;
+
+            //var matches = reg.Matches(text);
+            //if (matches != null && matches.Count > 0)
+            //{
+            //}
+        }
+
         private static void ReadXml(XmlElement ele, StringBuilder scriptCode)
         {
             foreach (var child in ele.ChildNodes)
             {
                 if (child is XmlText)
                 {
-                    scriptCode.AppendFormat("sql=sql+' {0}';", (child as XmlText).InnerText.Replace("'", "\\'").Trim());
+                    scriptCode.AppendFormat("sql=sql+' {0}';", FilterExpression((child as XmlText).InnerText));
                 }
                 else if (child is XmlElement)
                 {
@@ -115,11 +140,38 @@ namespace Automata.MiniORM.Xml
                     {
                         var test = chi.GetAttribute("test");
 
-                        scriptCode.AppendFormat("if({0}){{sql=sql+' {1}';}}", test, chi.InnerText.Replace("'", "\\'").Trim());
+                        scriptCode.AppendFormat("if({0}){{sql=sql+' {1}';}}", test, FilterExpression(chi.InnerText));
 
-                        //ReadXml(chi, scriptCode);
+                    }
+                    else if (chi.Name == "foreach")
+                    {
+                        var collection = chi.GetAttribute("collection");
+                        var item = chi.GetAttribute("item");
+                        var index = chi.GetAttribute("index");
+                        var open = chi.GetAttribute("open");
+                        var close = chi.GetAttribute("close");
+                        var separator = chi.GetAttribute("separator");
 
-                        //scriptCode.Append("}");
+                        if (string.IsNullOrEmpty(index))
+                        {
+                            index = "i";
+                        }
+
+                        if (!string.IsNullOrEmpty(open))
+                        {
+                            scriptCode.AppendFormat("sql=sql+'{0}';", open.Replace("'", "\\'"));
+                        }
+
+                        scriptCode.AppendFormat("for(var {0} in {1}){{var {2} = {1}[{0}];", index, collection, item);
+
+                        scriptCode.AppendFormat("sql=sql+'{1}'+'{0}';}}", separator.Replace("'", "\\'"), FilterExpression(chi.InnerText));
+
+                        scriptCode.AppendFormat("sql=sql.replace(new RegExp('\\\\'+'{0}'+'+$', 'g'), '{1}');", "\\',\\'", string.Empty);
+
+                        if (!string.IsNullOrEmpty(close))
+                        {
+                            scriptCode.AppendFormat("sql=sql+'{0}';", close.Replace("'", "\\'"));
+                        }
                     }
 
                 }

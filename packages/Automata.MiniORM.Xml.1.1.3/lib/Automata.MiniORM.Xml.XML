@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Automata.MiniORM.Xml</name>
+    </assembly>
+    <members>
+        <member name="M:Automata.MiniORM.Xml.Extension.DbSetExtensions.Query``1(Automata.MiniORM.BaseModel,System.String,System.Object)">
+            <summary>
+            使用Sql Mapper 执行sql查询语句
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="that"></param>
+            <param name="key"></param>
+            <param name="param"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Automata.MiniORM.Xml.Extension.DbSetExtensions.Execute(Automata.MiniORM.BaseModel,System.String,System.Object)">
+            <summary>
+            使用Sql Mapper 执行SQL语句
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="that"></param>
+            <param name="key"></param>
+            <param name="param"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Automata.MiniORM.Xml.SqlInfo.Type">
+            <summary>
+            sql类型
+            </summary>
+        </member>
+        <member name="P:Automata.MiniORM.Xml.SqlInfo.Id">
+            <summary>
+            sql id
+            </summary>
+        </member>
+        <member name="P:Automata.MiniORM.Xml.SqlInfo.FileName">
+            <summary>
+            来源文件名（FullName）
+            </summary>
+        </member>
+        <member name="P:Automata.MiniORM.Xml.SqlInfo.Namespace">
+            <summary>
+            命名空间（文件名）
+            </summary>
+        </member>
+        <member name="P:Automata.MiniORM.Xml.SqlInfo.ScriptCode">
+            <summary>
+            Sql执行脚本
+            </summary>
+        </member>
+        <member name="P:Automata.MiniORM.Xml.SqlInfo.Element">
+            <summary>
+            XML节点
+            </summary>
+        </member>
+        <member name="T:Automata.MiniORM.Xml.SqlMapper">
+            <summary>
+            Sql Xml Mapper Manager
+            </summary>
+        </member>
+    </members>
+</doc>
