@@ -4,8 +4,9 @@
 
 ---
 
-[Example](#example)
-[Sql Mapper](#sqlmapper)
+[Examples](#examples)
+
+[Sql Mapper](#sql-mapper)
 
 
 ## 简介
