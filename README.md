@@ -4,8 +4,17 @@
 
 ---
 
-## 说明
+[Example](#example)
+[Sql Mapper](#sqlmapper)
+
+
+## 简介
 一个轻量级ORM工具，基于Dapper.Net
+
+## Init
+```
+DbContext.SetConfig("YourSqlConnectionString", TimeOut);
+```
 
 ## Attributes
 
@@ -19,8 +28,8 @@
 表示自增列，Insert以及Update时将忽略，不修改
 
 
+<span id="example"></span>
 ## Examples
-
 ### Example Class
 ```
 class Customer{
@@ -80,4 +89,44 @@ var model2 = new Customer()
 
 var result = model2.Get<Customer>(); //返回ID=1的结果
 
+```
+
+<span id="sqlmapper"></span>
+## Sql Mapper
+### Create Xml
+```
+<?xml version="1.0" encoding="utf-8" ?>
+<mapper xsi:noNamespaceSchemaLocation="../DTD/SqlMapper.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <select id="testsql">
+    select name, age from user
+    <trim prefix="where" prefixOverrides="and">
+      <if test="args.name.length === 10">
+        and name = @name
+      </if>
+      <if test="args.name.length !== 10">
+        and id = @name
+      </if>
+      <if test="args.keyword !== null">
+        and name like '%' + @keyword + '%'
+      </if>
+      and status = 1
+    </trim>
+  </select>
+</mapper>
+```
+
+### Generate Sql Code
+```
+SqlMapper.Init(@"Your WWWroot", "MySqlMapper.xml");
+
+var sql = SqlMapper.Get("testsql", new { name = "123456789", keyword = (string)null });
+
+// select name, age from user where id = @name and status = 1
+Console.WriteLine(sql);
+
+```
+
+### Using
+```
+var collections = new BaseModel()<Customer>("sqlMapperId", new { Name = "name" });
 ```
