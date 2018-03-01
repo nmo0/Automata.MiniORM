@@ -501,6 +501,27 @@ namespace Automata.MiniORM
                 }
             }
         }
+
+        /// <summary>
+        /// Execute Sql
+        /// </summary>
+        /// <param name="sql"></param>
+        /// <param name="param"></param>
+        /// <returns></returns>
+        public int Execute(string sql, object param)
+        {
+            using (var conn = new SqlConnection(sqlConnectionStr))
+            {
+                try
+                {
+                    return conn.Execute(sql, param);
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+            }
+        }
     }
 
     public enum DbAction

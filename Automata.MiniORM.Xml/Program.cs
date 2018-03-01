@@ -10,13 +10,11 @@ namespace Automata.MiniORM.Xml
     {
         public static void Main(string[] args)
         {
-            var test = new Test();
-            test.Load(@"C:\Users\visten\Source\Repos\Automata.MiniORM\Automata.MiniORM.Xml\Xml\Sample\MySqlMapper.xml");
-            var sql = test.GenerateSqlString("testsql", new { name = "1234567890", keyword = (string)null });
-            Console.WriteLine(sql);
+            SqlMapper.Init(@"D:\GitProject\mini-orm\Automata.MiniORM.Xml\Xml\Sample", "MySqlMapper.xml");
 
-            var sql2 = test.GenerateSqlString("testsql", new { name = "123456789" });
-            Console.WriteLine(sql2);
+            var sql = SqlMapper.Get("testsql", new { name = "123456789", keyword = (string)null });
+
+            Console.WriteLine(sql);
         }
     }
 }

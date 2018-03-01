@@ -2,7 +2,6 @@
 using Microsoft.ClearScript.V8;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,60 +9,45 @@ using System.Xml;
 
 namespace Automata.MiniORM.Xml
 {
-    public class Test
+    /// <summary>
+    /// Sql Xml Mapper Manager
+    /// </summary>
+    public class SqlMapper
     {
-        private Dictionary<string, string> sqlCode = new Dictionary<string, string>();
-        //private static V8ScriptEngine engine = new V8ScriptEngine();
+        private static Dictionary<string, SqlInfo> _SqlCache;
 
-        public void Init()
+        private SqlMapper()
         {
-//            using (var engine = new V8ScriptEngine())
-//            {
 
-//                var stopwatch = new Stopwatch();
-//                stopwatch.Start();
-
-//                for (int i = 0; i < 10000; i++)
-//                {
-//                    var param = new
-//                    {
-//                        Type = i.ToString()
-//                    };
-
-//                    engine.Evaluate(string.Format(@"var args = {0};
-//var result = false;
-//if(args.Type === '4567')
-//    result = true;
-//else 
-//    result = false;", param.ToJSON()));
-
-//                    if ((bool)engine.Script.result)
-//                    {
-//                        Console.WriteLine(i);
-//                    }
-//                }
-
-//                stopwatch.Stop();
-//                Console.WriteLine(stopwatch.Elapsed.TotalMilliseconds);
-//            }
         }
 
-        public void Start(string path)
+        public static string Get(string key)
         {
-            Load(path);
+            return Get(key, new { });
         }
 
-        public string GenerateSqlString(string key, object param)
+        public static string Get(string key, object param)
         {
-            var code = sqlCode[key];
+            var code = _SqlCache[key];
+
             using (V8ScriptEngine engine = new V8ScriptEngine())
             {
-                engine.Evaluate(string.Format("var args={0};{1}", param.ToJSON(), code));
-                return engine.Script.sql;
+                return (string)engine.Evaluate(string.Format("var args={0};{1}", param.ToJSON(), code.ScriptCode));
+                //return engine.Script.sql;
             }
         }
 
-        public void Load(string path)
+        public static void Init(string root, params string[] xmlPath)
+        {
+            _SqlCache = new Dictionary<string, SqlInfo>();
+
+            foreach (var item in xmlPath)
+            {
+                Load(System.IO.Path.Combine(root, item));
+            }
+        }
+
+        private static void Load(string path)
         {
             XmlDocument xmldoc = new XmlDocument();
             xmldoc.Load(path);
@@ -82,14 +66,17 @@ namespace Automata.MiniORM.Xml
 
                 ReadXml(ele, scriptCode);
 
-
-                sqlCode.Add(id, string.Format("var fn=function(args){{{0}return sql;}};var sql=fn(args);", scriptCode.ToString()));
-
-                Console.WriteLine(sqlCode[id]);
+                _SqlCache.Add(id, new SqlInfo() {
+                    Id = id,
+                    Element = ele,
+                    FileName = path,
+                    Type = (SqlType)Enum.Parse(typeof(SqlType), ele.Name, true),
+                    ScriptCode = string.Format("var fn=function(args){{{0}return sql;}};var sql=fn(args);sql;", scriptCode.ToString())
+                });
             }
         }
 
-        public void ReadXml(XmlElement ele, StringBuilder scriptCode)
+        private static void ReadXml(XmlElement ele, StringBuilder scriptCode)
         {
             foreach (var child in ele.ChildNodes)
             {
