@@ -1,0 +1,187 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Automata.MiniORM</name>
+    </assembly>
+    <members>
+        <member name="T:Automata.MiniORM.BaseModel">
+            <summary>
+            用于ORM的基类
+            </summary>
+        </member>
+        <member name="M:Automata.MiniORM.DbContext.GetOrSetSql(Automata.MiniORM.BaseModel,Automata.MiniORM.DbAction,System.Boolean)">
+            <summary>
+            获取SQL，如果不存在则生成一个并缓存起来
+            <para>只有isEntire为true 全量更新时，才会缓存生成的SQL语句，否则是动态的</para>
+            </summary>
+            <param name="model"></param>
+            <param name="action"></param>
+            <param name="isEntire">是否全量更新（对于Update操作）</param>
+            <returns></returns>
+        </member>
+        <member name="M:Automata.MiniORM.DbContext.GenerateParamsSql(Automata.MiniORM.BaseModel,System.String,System.String,System.Reflection.PropertyInfo[])">
+            <summary>
+            生成参数SQL，默认忽略主键|自增列
+            </summary>
+            <param name="model"></param>
+            <param name="prefix"></param>
+            <param name="suffix"></param>
+            <param name="propertys"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Automata.MiniORM.DbContext.GenerateParamsSql(Automata.MiniORM.BaseModel,System.String,System.String,System.Reflection.PropertyInfo[],System.Boolean)">
+            <summary>
+            生成参数SQL
+            </summary>
+            <param name="model"></param>
+            <param name="prefix">前缀</param>
+            <param name="suffix">后缀</param>
+            <param name="propertys">属性</param>
+            <param name="ignoreKey">是否忽略主键|自增列</param>
+            <returns></returns>
+        </member>
+        <member name="M:Automata.MiniORM.DbContext.GetPrimaryKeyName(Automata.MiniORM.BaseModel,System.Reflection.PropertyInfo[])">
+            <summary>
+            获取主键名
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Automata.MiniORM.DbContext.GetTableName(Automata.MiniORM.BaseModel)">
+            <summary>
+            获取表名
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Automata.MiniORM.DbContext.GenerateUpdateSql(Automata.MiniORM.BaseModel,System.Boolean)">
+            <summary>
+            
+            </summary>
+            <param name="model"></param>
+            <param name="isEntire">是否全量更新，如果是true，表示所有属性都会被更新；否则只更新不为null的</param>
+            <returns></returns>
+        </member>
+        <member name="M:Automata.MiniORM.DbContext.GenerateDeleteSql(Automata.MiniORM.BaseModel)">
+            <summary>
+            生成Delete SQL语句
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Automata.MiniORM.DbContext.GenerateQuerySql(Automata.MiniORM.BaseModel,Automata.MiniORM.DbAction)">
+            <summary>
+            生成Query SQL语句
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Automata.MiniORM.DbContext.GenerateSql(Automata.MiniORM.BaseModel,Automata.MiniORM.DbAction,System.Boolean)">
+            <summary>
+            生成SQL语句
+            </summary>
+            <param name="model"></param>
+            <param name="action"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Automata.MiniORM.DbContext.Execute(System.Collections.Generic.IEnumerable{Automata.MiniORM.BaseModel},Automata.MiniORM.DbAction,System.Boolean)">
+            <summary>
+            执行更新
+            </summary>
+            <param name="dbSet">数据集</param>
+            <param name="action">操作</param>
+            <param name="isEntire">是否全量更新（对于Update操作）</param>
+            <returns></returns>
+        </member>
+        <member name="M:Automata.MiniORM.DbContext.Execute(Automata.MiniORM.BaseModel,Automata.MiniORM.DbAction,System.Boolean)">
+            <summary>
+            执行更新
+            </summary>
+            <param name="dbModel">数据实体</param>
+            <param name="action">操作</param>
+            <param name="isEntire">是否全量更新（对于Update操作）</param>
+            <returns></returns>
+        </member>
+        <member name="M:Automata.MiniORM.DbContext.Query``1(System.String,System.Object)">
+            <summary>
+            Execute Query
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="sql"></param>
+            <param name="param"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Automata.MiniORM.DbContext.Execute(System.String,System.Object)">
+            <summary>
+            Execute Sql
+            </summary>
+            <param name="sql"></param>
+            <param name="param"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Automata.MiniORM.DbSet.Update(System.Collections.Generic.IEnumerable{Automata.MiniORM.BaseModel})">
+            <summary>
+            执行修改操作。默认执行全量修改操作
+            <para>update sql 语句将会被缓存</para>
+            </summary>
+            <param name="that"></param>
+        </member>
+        <member name="M:Automata.MiniORM.DbSet.Update(System.Collections.Generic.IEnumerable{Automata.MiniORM.BaseModel},System.Boolean)">
+            <summary>
+            执行修改操作
+            </summary>
+            <param name="that"></param>
+            <param name="isEntire">是否全量更新，如果为true，则所有属性无论是否为null值，都会执行更新；否则，只更新不为null的属性,并且SQL不会被缓存</param>
+        </member>
+        <member name="M:Automata.MiniORM.DbSet.Update(Automata.MiniORM.BaseModel)">
+            <summary>
+            执行修改操作。默认执行全量修改操作
+            <para>update sql 语句将会被缓存</para>
+            </summary>
+            <param name="that"></param>
+        </member>
+        <member name="M:Automata.MiniORM.DbSet.Update(Automata.MiniORM.BaseModel,System.Boolean)">
+            <summary>
+            执行修改操作
+            </summary>
+            <param name="that"></param>
+            <param name="isEntire">是否全量更新，如果为true，则所有属性无论是否为null值，都会执行更新；否则，只更新不为null的属性,并且SQL不会被缓存</param>
+        </member>
+        <member name="M:Automata.MiniORM.DbSet.Get``1(Automata.MiniORM.BaseModel)">
+            <summary>
+            根据主键查询单个实体详情
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="that"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Automata.MiniORM.DbSet.Query``1(Automata.MiniORM.BaseModel)">
+            <summary>
+            使用有值的属性作为参数（where的=条件），并返回查询出来的集合
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="that"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Automata.MiniORM.SqlIgnoreAttribute">
+            <summary>
+            表示生成SQL语句时要忽略这一个属性
+            </summary>
+        </member>
+        <member name="T:Automata.MiniORM.TableNameAttribute">
+            <summary>
+            ORM映射表名
+            </summary>
+        </member>
+        <member name="P:Automata.MiniORM.TableNameAttribute.Name">
+            <summary>
+            表名
+            </summary>
+        </member>
+        <member name="T:Automata.MiniORM.SinceTheIncreaseAttribute">
+            <summary>
+            表示自增列，那么生成insert/update SQL语句时要忽略
+            </summary>
+        </member>
+    </members>
+</doc>
