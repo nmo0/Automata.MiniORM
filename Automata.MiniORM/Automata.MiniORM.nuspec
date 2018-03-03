@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Automata.MiniORM</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <projectUrl>https://github.com/visten/Automata.MiniORM</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Automata MiniORM BaseOn Dapper</description>
+    <releaseNotes></releaseNotes>
+    <copyright>$copyright$</copyright>
+    <tags>Automata MiniORM</tags>
+    <dependencies>
+        <dependency id="Dapper" version="1.42" />
+    </dependencies>
+  </metadata>
+</package>

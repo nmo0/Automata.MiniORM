@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Automata.MiniORM.XML</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <projectUrl>https://github.com/visten/Automata.MiniORM</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>XML Sql Mapper</description>
+    <releaseNotes></releaseNotes>
+    <copyright>$copyright$</copyright>
+    <tags>Automata MiniORM XML SqlMapper</tags>
+    <dependencies>
+        <dependency id="Newtonsoft.Json" version="6.0.4" />
+        <dependency id="ClearScript.V8" version="5.5.1" />
+    </dependencies>
+  </metadata>
+</package>
