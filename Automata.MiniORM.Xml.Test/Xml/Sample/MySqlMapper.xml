@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<mapper xsi:noNamespaceSchemaLocation="../DTD/SqlMapper.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <select id="testsql" parameterType="object">
+    select name, age from user
+    <trim prefix="where" prefixOverrides="and">
+      <if test="args.name.length === 10">
+        and name = @name
+      </if>
+      <if test="args.name.length !== 10">
+        and id = @name
+      </if>
+      <if test="args.keyword !== null">
+        and name like '%' + @keyword + '%'
+      </if>
+      and status = 1
+    </trim>
+  </select>
+</mapper>
