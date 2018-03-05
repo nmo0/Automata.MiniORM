@@ -129,5 +129,5 @@ Console.WriteLine(sql);
 
 ### Using
 ```
-var collections = new BaseModel()<Customer>("sqlMapperId", new { Name = "name" });
+var collections = new BaseModel().Query<Customer>("sqlMapperId", new { Name = "name" });
 ```
