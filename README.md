@@ -1,4 +1,4 @@
-﻿# 轻量级ORM工具
+# 轻量级ORM工具
 
 标签（空格分隔）： .NET Develop
 
@@ -129,5 +129,5 @@ Console.WriteLine(sql);
 
 ### Using
 ```
-var collections = new BaseModel().Query<Customer>("sqlMapperId", new { Name = "name" });
+var collections = new BaseModel()<Customer>("sqlMapperId", new { Name = "name" });
 ```
