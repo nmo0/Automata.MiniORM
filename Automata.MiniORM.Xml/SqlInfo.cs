@@ -45,6 +45,7 @@ namespace Automata.MiniORM.Xml
         Insert = 1,
         Select = 2,
         Update = 4,
-        Delete = 8
+        Delete = 8,
+        Other = 16
     }
 }

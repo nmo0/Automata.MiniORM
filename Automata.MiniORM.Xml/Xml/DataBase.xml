@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<mapper xsi:noNamespaceSchemaLocation="DTD/SqlMapper.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <other id="sys_drop_table">
+    drop table dbo.#{args}
+  </other>
+  <other id="sys_truncate_table">
+    truncate table dbo.#{args}
+  </other>
+  <other id="sys_create_table">
+    if object_id(N'#{args.TableName}',N'U') is null begin create table dbo.#{args.TableName}
+    <foreach collection="args.Columns" index="i" item="item" open="(" close=")" separator=",">
+      #{item.Name}
+      <if test="item.Type === 'String' &amp;&amp; item.Length > -1">
+        nvarchar(#{item.Length})
+      </if>
+      <if test="item.Type === 'String' &amp;&amp; item.Length === -1">
+        nvarchar(max)
+      </if>
+      <if test="item.Type === 'Int32'">
+        int
+      </if>
+      <if test="item.Type === 'Decimal' || item.Type === 'Single' || item.Type === 'Double'">
+        decimal(#{item.Length}, #{item.Accuracy})
+      </if>
+      <if test="item.Type === 'DateTime'">
+        datetime
+      </if>
+      <if test="item.Type === 'Boolean'">
+        bit
+      </if>
+      <if test="item.Attributes.indexOf('KeyAttribute') > -1">
+        primary key
+      </if>
+      <if test="item.Attributes.indexOf('SinceTheIncreaseAttribute') > -1">
+        primary key identity(1, 1)
+      </if>
+    </foreach>
+    end
+  </other>
+</mapper>

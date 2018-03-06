@@ -82,6 +82,17 @@
             <xs:attribute name="parameterType" type="xs:string" />
           </xs:complexType>
         </xs:element>
+        <xs:element name="other">
+          <xs:complexType mixed="true">
+            <xs:sequence>
+              <xs:element ref="if" minOccurs="0" maxOccurs="unbounded"/>
+              <xs:element ref="trim" minOccurs="0" maxOccurs="unbounded"/>
+              <xs:element ref="foreach" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+            <xs:attribute name="id" type="xs:string" />
+            <xs:attribute name="parameterType" type="xs:string" />
+          </xs:complexType>
+        </xs:element>
       </xs:choice>
     </xs:complexType>
   </xs:element>

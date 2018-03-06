@@ -215,7 +215,7 @@ namespace Automata.MiniORM
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        private string GetTableName(BaseModel model)
+        public string GetTableName(BaseModel model)
         {
             var tableName = string.Empty;
             var type = model.GetType();

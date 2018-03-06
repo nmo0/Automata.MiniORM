@@ -32,6 +32,11 @@ namespace Automata.MiniORM.Xml
             return _SqlCache[key].ScriptCode;
         }
 
+        public static string GetScript(string key, object param)
+        {
+            return string.Format("var args={0};{1}", param.ToJSON(), GetScript(key));
+        }
+
         public static string Get(string key, object param)
         {
             var code = _SqlCache[key];
@@ -107,7 +112,14 @@ namespace Automata.MiniORM.Xml
             {
                 if (child is XmlText)
                 {
-                    scriptCode.AppendFormat("sql=sql+' {0}';", FilterExpression((child as XmlText).InnerText));
+                    if (ele.ChildNodes.Count == 1)
+                    {
+                        scriptCode.AppendFormat("sql=sql+'{0}';", FilterExpression((child as XmlText).InnerText));
+                    }
+                    else
+                    {
+                        scriptCode.AppendFormat("sql=sql+' {0}';", FilterExpression((child as XmlText).InnerText));
+                    }
                 }
                 else if (child is XmlElement)
                 {
@@ -162,11 +174,21 @@ namespace Automata.MiniORM.Xml
                             scriptCode.AppendFormat("sql=sql+'{0}';", open.Replace("'", "\\'"));
                         }
 
+                        var tempId = string.Format("sql_{0}", Guid.NewGuid().ToString().Replace("-", string.Empty).Substring(0, 8));
+
+                        scriptCode.AppendFormat("var {0}=sql;sql='';", tempId);
+
                         scriptCode.AppendFormat("for(var {0} in {1}){{var {2} = {1}[{0}];", index, collection, item);
 
-                        scriptCode.AppendFormat("sql=sql+'{1}'+'{0}';}}", separator.Replace("'", "\\'"), FilterExpression(chi.InnerText));
+                        ReadXml(chi, scriptCode);
 
-                        scriptCode.AppendFormat("sql=sql.replace(new RegExp('\\\\'+'{0}'+'+$', 'g'), '{1}');", "\\',\\'", string.Empty);
+                        scriptCode.AppendFormat("sql=sql+'{0}';}}", separator.Replace("'", "\\'"));
+
+                        scriptCode.AppendFormat("{0}={0}.replace(new RegExp('^\\\\s', 'g'), '');", tempId);
+
+                        scriptCode.AppendFormat("sql={0}+sql;", tempId);
+
+                        scriptCode.AppendFormat("sql=sql.replace(new RegExp('\\\\'+'{0}'+'+$', 'g'), '{1}');", separator.Replace("'","\\'"), string.Empty);
 
                         if (!string.IsNullOrEmpty(close))
                         {

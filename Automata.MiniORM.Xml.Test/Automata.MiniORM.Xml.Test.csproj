@@ -40,6 +40,7 @@
       <HintPath>..\packages\ClearScript.V8.5.5.1\lib\net45\ClearScript.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -54,6 +55,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Models\TestModel1.cs" />
     <Compile Include="SqlMapperTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -78,6 +80,7 @@
   <ItemGroup>
     <Content Include="Exports\CallbackManager.h" />
     <Content Include="Exports\VersionSymbols.h" />
+    <Content Include="Xml\DataBase.xml" />
     <Content Include="Xml\Sample\MySqlMapper.xml" />
     <Content Include="Xml\Sample\SampleSqlMapper_01.xml" />
     <Content Include="Xml\Sample\SampleSqlMapper_02.xml" />

@@ -43,6 +43,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -52,6 +53,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Columns.cs" />
+    <Compile Include="Extension\DataBaseExtensions.cs" />
     <Compile Include="Extension\DbSetExtensions.cs" />
     <Compile Include="Extension\JsonExtensions.cs" />
     <Compile Include="SqlInfo.cs" />
@@ -71,6 +74,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="help.txt" />
+    <Content Include="Xml\DataBase.xml" />
     <Content Include="Xml\Sample\MySqlMapper.xml" />
   </ItemGroup>
   <ItemGroup>

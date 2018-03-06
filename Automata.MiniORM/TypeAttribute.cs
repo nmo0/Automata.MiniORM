@@ -11,6 +11,16 @@ namespace Automata.MiniORM
     public class SqlIgnoreAttribute : Attribute { }
 
     /// <summary>
+    /// SQL配置
+    /// </summary>
+    public class SqlConfigAttribute : Attribute {
+        /// <summary>
+        /// 小数位精度
+        /// </summary>
+        public int Accuracy { get; set; }
+    }
+
+    /// <summary>
     /// ORM映射表名
     /// </summary>
     public class TableNameAttribute : Attribute {

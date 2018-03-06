@@ -1,4 +1,6 @@
 ﻿using Automata.MiniORM.Xml;
+using Automata.MiniORM.Xml.Extension;
+using Automata.MiniORM.Xml.Test.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -53,9 +55,59 @@ namespace Automata.MiniORM.Xml.Test2
         {
             SqlMapper.Init(@"../../Xml/Sample", "SampleSqlMapper_03.xml");
 
+            var script = SqlMapper.GetScript("SampleSqlMapper_03", new string[] { "1", "2", "3", "4" });
+
             var sql = SqlMapper.Get("SampleSqlMapper_03", new string[] { "1", "2", "3", "4" });
 
             Assert.AreEqual(sql, "select * from table_c where no in('1','2','3','4')");
+        }
+
+        [TestMethod]
+        public void DataBase01Sql()
+        {
+            SqlMapper.Init(@"../../Xml", "DataBase.xml");
+
+            var model = new TestModel1();
+
+            var param = new
+            {
+                TableName = DbContext.Instance.GetTableName(model),
+                Columns = model.GetColumns()
+            };
+
+            var sql = SqlMapper.Get("sys_create_table", param);
+            
+            var acutalSql = "if object_id(N'TestModel1',N'U') is null begin create table dbo.TestModel1( ID int primary key, Name nvarchar(200), Display nvarchar(500), Description nvarchar(max), Weight decimal(12, 5), Star decimal(5, 2), Birthday datetime, HasChild bit) end";
+
+            Assert.AreEqual(acutalSql, sql);
+        }
+
+        [TestMethod]
+        public void DataBase02Sql()
+        {
+            SqlMapper.Init(@"../../Xml", "DataBase.xml");
+
+            var model = new TestModel1();
+
+            var sql = SqlMapper.Get("sys_truncate_table", DbContext.Instance.GetTableName(model));
+
+            var acutalSql = "truncate table dbo.TestModel1";
+
+            Assert.AreEqual(acutalSql, sql);
+        }
+
+        [TestMethod]
+        public void DataBase03Sql()
+        {
+            SqlMapper.Init(@"../../Xml", "DataBase.xml");
+
+            var model = new TestModel1();
+
+            var sql = SqlMapper.Get("sys_drop_table", DbContext.Instance.GetTableName(model));
+
+            var acutalSql = "drop table dbo.TestModel1";
+
+            Assert.AreEqual(acutalSql, sql);
         }
     }
 }

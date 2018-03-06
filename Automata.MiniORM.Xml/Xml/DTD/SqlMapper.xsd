@@ -20,6 +20,19 @@
       <xs:attribute name="suffixOverrides" type="xs:string" />
     </xs:complexType>
   </xs:element>
+  <xs:element name="foreach" nillable="true">
+    <xs:complexType mixed="true">
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="if" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:choice>
+      <xs:attribute name="collection" type="xs:string" />
+      <xs:attribute name="item" type="xs:string" />
+      <xs:attribute name="index" type="xs:string" />
+      <xs:attribute name="open" type="xs:string" />
+      <xs:attribute name="close" type="xs:string" />
+      <xs:attribute name="separator" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
   <xs:element name="mapper">
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -30,6 +43,7 @@
             <xs:sequence>
               <xs:element ref="if" minOccurs="0" maxOccurs="unbounded"/>
               <xs:element ref="trim" minOccurs="0" maxOccurs="unbounded"/>
+              <xs:element ref="foreach" minOccurs="0" maxOccurs="unbounded"/>
             </xs:sequence>
             <xs:attribute name="id" type="xs:string" />
             <xs:attribute name="parameterType" type="xs:string" />
@@ -40,6 +54,7 @@
             <xs:sequence>
               <xs:element ref="if" minOccurs="0" maxOccurs="unbounded"/>
               <xs:element ref="trim" minOccurs="0" maxOccurs="unbounded"/>
+              <xs:element ref="foreach" minOccurs="0" maxOccurs="unbounded"/>
             </xs:sequence>
             <xs:attribute name="id" type="xs:string" />
             <xs:attribute name="parameterType" type="xs:string" />
@@ -50,6 +65,7 @@
             <xs:sequence>
               <xs:element ref="if" minOccurs="0" maxOccurs="unbounded"/>
               <xs:element ref="trim" minOccurs="0" maxOccurs="unbounded"/>
+              <xs:element ref="foreach" minOccurs="0" maxOccurs="unbounded"/>
             </xs:sequence>
             <xs:attribute name="id" type="xs:string" />
             <xs:attribute name="parameterType" type="xs:string" />
@@ -60,6 +76,18 @@
             <xs:sequence>
               <xs:element ref="if" minOccurs="0" maxOccurs="unbounded"/>
               <xs:element ref="trim" minOccurs="0" maxOccurs="unbounded"/>
+              <xs:element ref="foreach" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+            <xs:attribute name="id" type="xs:string" />
+            <xs:attribute name="parameterType" type="xs:string" />
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="other">
+          <xs:complexType mixed="true">
+            <xs:sequence>
+              <xs:element ref="if" minOccurs="0" maxOccurs="unbounded"/>
+              <xs:element ref="trim" minOccurs="0" maxOccurs="unbounded"/>
+              <xs:element ref="foreach" minOccurs="0" maxOccurs="unbounded"/>
             </xs:sequence>
             <xs:attribute name="id" type="xs:string" />
             <xs:attribute name="parameterType" type="xs:string" />
