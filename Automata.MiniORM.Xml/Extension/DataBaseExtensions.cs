@@ -69,9 +69,16 @@ namespace Automata.MiniORM.Xml.Extension
                 var sqlConfigAttribute = attributes.SingleOrDefault(m=>m is SqlConfigAttribute);
                 var stringLengthAttribute = attributes.SingleOrDefault(m=>m is StringLengthAttribute);
 
+                var type = item.PropertyType;
+                if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>))
+                {
+                    // If it is NULLABLE, then get the underlying type. eg if "Nullable<int>" then this will return just "int"
+                    type = type.GetGenericArguments()[0];
+                }
+
                 columns.Add(new Columns() {
                     Name = item.Name,
-                    Type = item.PropertyType.Name,
+                    Type = type.Name,
                     Attributes = attributes.Select(m=>m.GetType().Name),
                     Accuracy = sqlConfigAttribute != null ? (sqlConfigAttribute as SqlConfigAttribute).Accuracy : 2,
                     Length = stringLengthAttribute != null ? (stringLengthAttribute as StringLengthAttribute).MaximumLength : 200

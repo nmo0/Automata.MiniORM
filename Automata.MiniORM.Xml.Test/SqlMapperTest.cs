@@ -76,8 +76,9 @@ namespace Automata.MiniORM.Xml.Test2
             };
 
             var sql = SqlMapper.Get("sys_create_table", param);
-            
-            var acutalSql = "if object_id(N'TestModel1',N'U') is null begin create table dbo.TestModel1( ID int primary key, Name nvarchar(200), Display nvarchar(500), Description nvarchar(max), Weight decimal(12, 5), Star decimal(5, 2), Birthday datetime, HasChild bit) end";
+            var script = SqlMapper.GetScript("sys_create_table", param);
+
+            var acutalSql = "if object_id(N'TestModel1',N'U') is null begin create table dbo.TestModel1(ID int primary key, Name nvarchar(200), Display nvarchar(500), Description nvarchar(max), Weight decimal(12, 5), Star decimal(5, 2), Birthday datetime, HasChild bit) end";
 
             Assert.AreEqual(acutalSql, sql);
         }

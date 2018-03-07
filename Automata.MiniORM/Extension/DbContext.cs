@@ -367,10 +367,19 @@ namespace Automata.MiniORM
                     }
                 }
 
-                whereSql.Remove(whereSql.Length - 5, 5);
+                if (whereSql.Length > 0)
+                {
+                    whereSql.Remove(whereSql.Length - 5, 5);
+                }
             }
-
-            return string.Format("select {0} from {1} where {2}", sqlParamsBuilder, tableName, whereSql);
+            if (whereSql.Length > 0)
+            {
+                return string.Format("select {0} from {1} where {2}", sqlParamsBuilder, tableName, whereSql);
+            }
+            else
+            {
+                return string.Format("select {0} from {1}", sqlParamsBuilder, tableName);
+            }
         }
 
         /// <summary>
@@ -379,7 +388,7 @@ namespace Automata.MiniORM
         /// <param name="model"></param>
         /// <param name="action"></param>
         /// <returns></returns>
-        private string GenerateSql(BaseModel model, DbAction action, bool isEntire)
+        public string GenerateSql(BaseModel model, DbAction action, bool isEntire)
         {
             var sql = string.Empty;
 

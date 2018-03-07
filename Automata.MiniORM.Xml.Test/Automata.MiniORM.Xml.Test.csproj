@@ -55,6 +55,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="GenerateSimpleSqlTest.cs" />
     <Compile Include="Models\TestModel1.cs" />
     <Compile Include="SqlMapperTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

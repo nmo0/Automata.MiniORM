@@ -10,7 +10,7 @@ namespace Automata.MiniORM.Xml.Test.Models
     public class TestModel1: BaseModel
     {
         [Key]
-        public int ID { get; set; }
+        public int? ID { get; set; }
 
 
         public string Name { get; set; }
@@ -23,13 +23,13 @@ namespace Automata.MiniORM.Xml.Test.Models
 
         [StringLength(12)]
         [SqlConfig(Accuracy = 5)]
-        public decimal Weight { get; set; }
+        public decimal? Weight { get; set; }
 
         [StringLength(5)]
-        public float Star { get; set; }
+        public float? Star { get; set; }
 
-        public DateTime Birthday { get; set; }
+        public DateTime? Birthday { get; set; }
 
-        public bool HasChild { get; set; }
+        public bool? HasChild { get; set; }
     }
 }

@@ -184,7 +184,7 @@ namespace Automata.MiniORM.Xml
 
                         scriptCode.AppendFormat("sql=sql+'{0}';}}", separator.Replace("'", "\\'"));
 
-                        scriptCode.AppendFormat("{0}={0}.replace(new RegExp('^\\\\s', 'g'), '');", tempId);
+                        scriptCode.AppendFormat("sql=sql.replace(new RegExp('^\\\\s', 'g'), '');");
 
                         scriptCode.AppendFormat("sql={0}+sql;", tempId);
 
