@@ -4,7 +4,6 @@ Thumbs.db
 #Ignore files built by Visual Studio
 SmartApi/ProcessExport/
 *.obj
-*.exe
 *.pdb
 *.user
 *.aps
