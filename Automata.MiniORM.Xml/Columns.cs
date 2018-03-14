@@ -21,7 +21,7 @@ namespace Automata.MiniORM.Xml
         /// <summary>
         /// 特性
         /// </summary>
-        public IEnumerable<string> Attributes { get; set; }
+        public List<string> Attributes { get; set; }
 
         /// <summary>
         /// 精度

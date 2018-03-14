@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
@@ -29,10 +30,14 @@ namespace Automata.MiniORM.Xml
         /// </summary>
         public string Namespace { get; set; }
 
+        public ScriptType ScriptType { get; set; }
+
         /// <summary>
         /// Sql执行脚本
         /// </summary>
         public string ScriptCode { get; set; }
+
+        public Assembly Assembly { get; set; }
 
         /// <summary>
         /// XML节点
@@ -47,5 +52,11 @@ namespace Automata.MiniORM.Xml
         Update = 4,
         Delete = 8,
         Other = 16
+    }
+
+    public enum ScriptType
+    {
+        JavaScript = 1,
+        CSharp = 2
     }
 }

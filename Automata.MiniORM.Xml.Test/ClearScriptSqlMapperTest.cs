@@ -11,23 +11,28 @@ using System.Threading.Tasks;
 namespace Automata.MiniORM.Xml.Test2
 {
     [TestClass]
-    public class SqlMapperTest
+    public class ClearScriptSqlMapperTest
     {
-        [TestMethod]
-        public void Sample01Script()
+        private static ISqlMapper SqlMapper;
+        public ClearScriptSqlMapperTest()
         {
-            SqlMapper.Init(@"../../Xml/Sample", "SampleSqlMapper_01.xml");
+            var sqlMapper = new ClearScriptSqlMapper();
 
+            SqlMapper = sqlMapper;
+            SqlMapper.Init(@"../../Xml/Sample");
+        }
+
+        [TestMethod]
+        public void ClearScript_Sample01Script()
+        {
             var script = SqlMapper.GetScript("SampleSqlMapper_01");
 
             Assert.AreEqual(script, @"var fn=function(args){var sql='';sql=sql+' select a.* from table_a as a';if(args.no !== null && args.no !== ''){sql=sql+' left join table_b as b on b.sno = a.no where a.no like \'%\' + @no + \'%\'';}if(!(args.no !== null && args.no !== '')){sql=sql+' where a.status in (\'Complete\') and code = @code';}sql=sql+' and user = @user';if(args.date !== null){sql=sql+' ';}sql=sql+' order by date desc';return sql;};var sql=fn(args);sql;");
         }
 
         [TestMethod]
-        public void Sample01Sql()
+        public void ClearScript_Sample01Sql()
         {
-            SqlMapper.Init(@"../../Xml/Sample", "SampleSqlMapper_01.xml");
-
             var sql = SqlMapper.Get("SampleSqlMapper_01", new { no = "NO123456" });
 
             Assert.AreEqual(sql, "select a.* from table_a as a left join table_b as b on b.sno = a.no where a.no like '%' + @no + '%' and user = @user  order by date desc");
@@ -40,10 +45,8 @@ namespace Automata.MiniORM.Xml.Test2
 
 
         [TestMethod]
-        public void Sample02Sql()
+        public void ClearScript_Sample02Sql()
         {
-            SqlMapper.Init(@"../../Xml/Sample", "SampleSqlMapper_02.xml");
-
             var sql = SqlMapper.Get("SampleSqlMapper_02", new { no = "'a', 'b', 'c', 'd'" });
 
             Assert.AreEqual(sql, "select * from table_c where no in ('a', 'b', 'c', 'd')");
@@ -51,10 +54,8 @@ namespace Automata.MiniORM.Xml.Test2
 
 
         [TestMethod]
-        public void Sample03Sql()
+        public void ClearScript_Sample03Sql()
         {
-            SqlMapper.Init(@"../../Xml/Sample", "SampleSqlMapper_03.xml");
-
             var script = SqlMapper.GetScript("SampleSqlMapper_03", new string[] { "1", "2", "3", "4" });
 
             var sql = SqlMapper.Get("SampleSqlMapper_03", new string[] { "1", "2", "3", "4" });
@@ -63,10 +64,8 @@ namespace Automata.MiniORM.Xml.Test2
         }
 
         [TestMethod]
-        public void DataBase01Sql()
+        public void ClearScript_DataBase01Sql()
         {
-            SqlMapper.Init(@"../../Xml", "DataBase.xml");
-
             var model = new TestModel1();
 
             var param = new
@@ -84,10 +83,8 @@ namespace Automata.MiniORM.Xml.Test2
         }
 
         [TestMethod]
-        public void DataBase02Sql()
+        public void ClearScript_DataBase02Sql()
         {
-            SqlMapper.Init(@"../../Xml", "DataBase.xml");
-
             var model = new TestModel1();
 
             var sql = SqlMapper.Get("sys_truncate_table", DbContext.Instance.GetTableName(model));
@@ -98,10 +95,8 @@ namespace Automata.MiniORM.Xml.Test2
         }
 
         [TestMethod]
-        public void DataBase03Sql()
+        public void ClearScript_DataBase03Sql()
         {
-            SqlMapper.Init(@"../../Xml", "DataBase.xml");
-
             var model = new TestModel1();
 
             var sql = SqlMapper.Get("sys_drop_table", DbContext.Instance.GetTableName(model));

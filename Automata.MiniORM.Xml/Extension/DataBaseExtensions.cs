@@ -13,6 +13,12 @@ namespace Automata.MiniORM.Xml.Extension
     public static class DataBaseExtensions
     {
         private static DbContext DbContext = DbContext.Instance;
+        private static ISqlMapper SqlMapper;
+
+        public static void SetSqlMapper(ISqlMapper sqlMapper)
+        {
+            SqlMapper = sqlMapper;
+        }
 
         /// <summary>
         /// 重置数据表
@@ -31,7 +37,8 @@ namespace Automata.MiniORM.Xml.Extension
         /// <param name="that"></param>
         public static void CreateIfNotExist(this BaseModel that)
         {
-            var sql = SqlMapper.Get("sys_create_table", new {
+            var sql = SqlMapper.Get("sys_create_table", new CreateTableInfo
+            {
                 TableName = DbContext.GetTableName(that),
                 Columns = GetColumns(that)
             });
@@ -57,7 +64,7 @@ namespace Automata.MiniORM.Xml.Extension
             DbContext.Execute(sql, null);
         }
 
-        public static IEnumerable<Columns> GetColumns(this BaseModel model)
+        public static List<Columns> GetColumns(this BaseModel model)
         {
             var columns = new List<Columns>();
 
@@ -79,7 +86,7 @@ namespace Automata.MiniORM.Xml.Extension
                 columns.Add(new Columns() {
                     Name = item.Name,
                     Type = type.Name,
-                    Attributes = attributes.Select(m=>m.GetType().Name),
+                    Attributes = attributes.Select(m=>m.GetType().Name).ToList(),
                     Accuracy = sqlConfigAttribute != null ? (sqlConfigAttribute as SqlConfigAttribute).Accuracy : 2,
                     Length = stringLengthAttribute != null ? (stringLengthAttribute as StringLengthAttribute).MaximumLength : 200
                 });

@@ -8,7 +8,13 @@ namespace Automata.MiniORM.Xml.Extension
 {
     public static class DbSetExtensions
     {
-        public static DbContext DbContext = DbContext.Instance;
+        private static DbContext DbContext = DbContext.Instance;
+        private static ISqlMapper SqlMapper;
+
+        public static void SetSqlMapper(ISqlMapper sqlMapper)
+        {
+            SqlMapper = sqlMapper;
+        }
 
         /// <summary>
         /// 使用Sql Mapper 执行sql查询语句

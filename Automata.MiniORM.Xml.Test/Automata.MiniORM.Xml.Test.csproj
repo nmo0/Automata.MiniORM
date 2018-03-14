@@ -57,7 +57,8 @@
   <ItemGroup>
     <Compile Include="GenerateSimpleSqlTest.cs" />
     <Compile Include="Models\TestModel1.cs" />
-    <Compile Include="SqlMapperTest.cs" />
+    <Compile Include="DotNetSqlMapperTest.cs" />
+    <Compile Include="ClearScriptSqlMapperTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -81,7 +82,12 @@
   <ItemGroup>
     <Content Include="Exports\CallbackManager.h" />
     <Content Include="Exports\VersionSymbols.h" />
-    <Content Include="Xml\DataBase.xml" />
+    <Content Include="Xml\DotSample\DataBase.xml" />
+    <Content Include="Xml\Sample\DataBase.xml" />
+    <Content Include="Xml\DotSample\MySqlMapper.xml" />
+    <Content Include="Xml\DotSample\SampleSqlMapper_01.xml" />
+    <Content Include="Xml\DotSample\SampleSqlMapper_02.xml" />
+    <Content Include="Xml\DotSample\SampleSqlMapper_03.xml" />
     <Content Include="Xml\Sample\MySqlMapper.xml" />
     <Content Include="Xml\Sample\SampleSqlMapper_01.xml" />
     <Content Include="Xml\Sample\SampleSqlMapper_02.xml" />

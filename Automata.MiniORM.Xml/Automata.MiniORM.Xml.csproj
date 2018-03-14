@@ -54,12 +54,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Columns.cs" />
+    <Compile Include="CreateTableInfo.cs" />
+    <Compile Include="DotNetSqlMapper.cs" />
     <Compile Include="Extension\DataBaseExtensions.cs" />
     <Compile Include="Extension\DbSetExtensions.cs" />
     <Compile Include="Extension\JsonExtensions.cs" />
+    <Compile Include="ISqlMapper.cs" />
     <Compile Include="SqlInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SqlMapper.cs" />
+    <Compile Include="ClearScriptSqlMapper.cs" />
+    <Compile Include="Test.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config">
@@ -74,7 +78,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="help.txt" />
-    <Content Include="Xml\DataBase.xml" />
+    <Content Include="Xml\Sample\DataBase.xml" />
     <Content Include="Xml\Sample\MySqlMapper.xml" />
   </ItemGroup>
   <ItemGroup>

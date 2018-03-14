@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Automata.MiniORM.Xml.Test
+namespace Automata.MiniORM.Xml.Test2
 {
     [TestClass]
     public class GenerateSimpleSqlTest

@@ -13,31 +13,31 @@ namespace Automata.MiniORM.Xml
     /// <summary>
     /// Sql Xml Mapper Manager
     /// </summary>
-    public class SqlMapper
+    public class ClearScriptSqlMapper : ISqlMapper
     {
-        private static Dictionary<string, SqlInfo> _SqlCache;
+        private Dictionary<string, SqlInfo> _SqlCache;
 
-        private SqlMapper()
+        public ClearScriptSqlMapper()
         {
-
+            _SqlCache = new Dictionary<string, SqlInfo>();
         }
 
-        public static string Get(string key)
+        public string Get(string key)
         {
             return Get(key, new { });
         }
 
-        public static string GetScript(string key)
+        public string GetScript(string key)
         {
             return _SqlCache[key].ScriptCode;
         }
 
-        public static string GetScript(string key, object param)
+        public string GetScript(string key, object param)
         {
             return string.Format("var args={0};{1}", param.ToJSON(), GetScript(key));
         }
 
-        public static string Get(string key, object param)
+        public string Get(string key, object param)
         {
             var code = _SqlCache[key];
 
@@ -49,17 +49,40 @@ namespace Automata.MiniORM.Xml
             }
         }
 
-        public static void Init(string root, params string[] xmlPath)
+        public void Init(string root)
         {
-            _SqlCache = new Dictionary<string, SqlInfo>();
+            var files = System.IO.Directory.GetFiles(root, "*.xml", System.IO.SearchOption.AllDirectories);
 
-            foreach (var item in xmlPath)
+            foreach (var item in files)
             {
                 Load(System.IO.Path.Combine(root, item));
             }
+
+            DataBaseExtensions.SetSqlMapper(this);
+            DbSetExtensions.SetSqlMapper(this);
         }
 
-        private static void Load(string path)
+        public void Init(string root, string[] xmlPath)
+        {
+
+            if (xmlPath != null)
+            {
+
+                foreach (var item in xmlPath)
+                {
+                    Load(System.IO.Path.Combine(root, item));
+                }
+            }
+
+            Init(root);
+        }
+
+        public void Init(string root,string[] dllPath, string[] xmlPath)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Load(string path)
         {
             XmlDocument xmldoc = new XmlDocument();
             xmldoc.Load(path);
@@ -88,7 +111,7 @@ namespace Automata.MiniORM.Xml
             }
         }
 
-        private static string FilterExpression(string text)
+        public string FilterExpression(string text)
         {
             text = text.Replace("'", "\\'").Replace("\r\n", " ").Trim();
 
@@ -106,7 +129,7 @@ namespace Automata.MiniORM.Xml
             //}
         }
 
-        private static void ReadXml(XmlElement ele, StringBuilder scriptCode)
+        public void ReadXml(XmlElement ele, StringBuilder scriptCode)
         {
             foreach (var child in ele.ChildNodes)
             {
@@ -197,6 +220,18 @@ namespace Automata.MiniORM.Xml
                     }
 
                 }
+            }
+        }
+
+        public string Get<T>(string key, T param) where T : class
+        {
+            var code = _SqlCache[key];
+
+            using (V8ScriptEngine engine = new V8ScriptEngine())
+            {
+                var sql = (string)engine.Evaluate(string.Format("var args={0};{1}", param.ToJSON(), code.ScriptCode));
+
+                return sql.Trim();
             }
         }
     }

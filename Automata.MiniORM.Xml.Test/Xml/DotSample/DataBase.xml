@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<mapper xsi:noNamespaceSchemaLocation="../DTD/SqlMapper.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <other id="sys_drop_table" parameterType="string">
+    drop table dbo.#{args}
+  </other>
+  <other id="sys_truncate_table" parameterType="string">
+    truncate table dbo.#{args}
+  </other>
+  <other id="sys_create_table" parameterType="Automata.MiniORM.Xml.CreateTableInfo">
+    if object_id(N'#{args.TableName}',N'U') is null begin create table dbo.#{args.TableName}
+    <foreach collection="args.Columns" index="i" item="item" open="(" close=")" separator=",">
+      #{item.Name}
+      <if test="item.Type == &quot;String&quot; &amp;&amp; item.Length > -1">
+        nvarchar(#{item.Length})
+      </if>
+      <if test="item.Type == &quot;String&quot; &amp;&amp; item.Length == -1">
+        nvarchar(max)
+      </if>
+      <if test="item.Type == &quot;Int32&quot;">
+        int
+      </if>
+      <if test="item.Type == &quot;Decimal&quot; || item.Type == &quot;Single&quot; || item.Type == &quot;Double&quot;">
+        decimal(#{item.Length}, #{item.Accuracy})
+      </if>
+      <if test="item.Type == &quot;DateTime&quot;">
+        datetime
+      </if>
+      <if test="item.Type == &quot;Boolean&quot;">
+        bit
+      </if>
+      <if test="item.Attributes.Contains(&quot;KeyAttribute&quot;)">
+        primary key
+      </if>
+      <if test="item.Attributes.Contains(&quot;SinceTheIncreaseAttribute&quot;)">
+        primary key identity(1, 1)
+      </if>
+    </foreach>
+    end
+  </other>
+</mapper>
