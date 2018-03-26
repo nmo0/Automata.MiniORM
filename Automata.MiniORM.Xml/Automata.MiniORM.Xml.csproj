@@ -34,6 +34,9 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Automata.MiniDI">
+      <HintPath>..\..\Automata.MiniDI\Automata.MiniDI\bin\Debug\Automata.MiniDI.dll</HintPath>
+    </Reference>
     <Reference Include="ClearScript">
       <HintPath>..\packages\ClearScript.V8.5.5.1\lib\net45\ClearScript.dll</HintPath>
     </Reference>

@@ -1,4 +1,5 @@
-﻿using Automata.MiniORM.Xml.Extension;
+﻿using Automata.MiniDI;
+using Automata.MiniORM.Xml.Extension;
 using Microsoft.CSharp;
 using System;
 using System.CodeDom.Compiler;
@@ -14,7 +15,7 @@ namespace Automata.MiniORM.Xml
     public class DotNetSqlMapper : ISqlMapper
     {
         private Dictionary<string, SqlInfo> _SqlCache;
-        private string[] _Dll;
+        private List<string> _Dll;
 
         public DotNetSqlMapper()
         {
@@ -56,17 +57,28 @@ namespace Automata.MiniORM.Xml
                 //添加引用
                 //data.ReferencedAssemblies.ForEach(m => objCompilerParameters.ReferencedAssemblies.Add(m));
 
-                objCompilerParameters.ReferencedAssemblies.Add("System.dll");//System.Xml.Linq.dll 
-                objCompilerParameters.ReferencedAssemblies.Add("Microsoft.CSharp.dll");//System.Xml.Linq.dll 
-                objCompilerParameters.ReferencedAssemblies.Add("System.Core.dll");//
-                objCompilerParameters.ReferencedAssemblies.Add("System.Xml.Linq.dll");//
+                //objCompilerParameters.ReferencedAssemblies.Add("System.dll");//System.Xml.Linq.dll 
+                //objCompilerParameters.ReferencedAssemblies.Add("Microsoft.CSharp.dll");//System.Xml.Linq.dll 
+                //objCompilerParameters.ReferencedAssemblies.Add("System.Core.dll");//
+                //objCompilerParameters.ReferencedAssemblies.Add("System.Xml.Linq.dll");//
 
-                if (_Dll != null)
+                if (_Dll == null)
                 {
-                    objCompilerParameters.ReferencedAssemblies.AddRange(_Dll);
+                    _Dll = new List<string>();
                 }
 
-                objCompilerParameters.ReferencedAssemblies.Add("Automata.MiniORM.Xml.dll");
+                _Dll.Add("System.dll");
+                _Dll.Add("Microsoft.CSharp.dll");
+                _Dll.Add("System.Core.dll");
+                _Dll.Add("System.Xml.Linq.dll");
+
+                var allRefrenced = ActivatorUtilities.GetAssemblyPaths();
+
+                _Dll.AddRange(allRefrenced);
+
+                objCompilerParameters.ReferencedAssemblies.AddRange(_Dll.Distinct().ToArray());
+
+                //objCompilerParameters.ReferencedAssemblies.Add("Automata.MiniORM.Xml.dll");
 
 
                 objCompilerParameters.GenerateExecutable = false;
@@ -154,7 +166,7 @@ namespace Automata.MiniORM.Xml
 
         public void Init(string root, string[] dllPath, string[] xmlPath)
         {
-            _Dll = dllPath;
+            _Dll = dllPath.ToList();
 
             Init(root, xmlPath);
         }
@@ -250,11 +262,11 @@ namespace Automata.MiniORM.Xml
 
                         if (!string.IsNullOrEmpty(prefix))
                         {
-                            scriptCode.AppendFormat(@"sql = new Regex(@""^\\\s{0}+"").Replace(sql, "" {1}"");", prefixOverrides, prefix);
+                            scriptCode.AppendFormat(@"sql = new Regex(@""^\s{0}+"").Replace(sql, "" {1}"");", prefixOverrides, prefix);
                         }
                         else if (!string.IsNullOrEmpty(suffix))
                         {
-                            scriptCode.AppendFormat(@"sql = new Regex(@""\\\s{0}+$"").Replace(sql, "" {1}"");", suffixOverrides, suffix);
+                            scriptCode.AppendFormat(@"sql = new Regex(@""\s{0}+$"").Replace(sql, "" {1} "");", suffixOverrides, suffix);
                         }
 
                         scriptCode.AppendFormat("sql={0}+sql;", tempId);
