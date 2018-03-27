@@ -19,16 +19,17 @@ namespace Automata.MiniORM.Xml.Extension
         /// <summary>
         /// 使用Sql Mapper 执行sql查询语句
         /// </summary>
-        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="TQuery"></typeparam>
+        /// <typeparam name="TParams"></typeparam>
         /// <param name="that"></param>
         /// <param name="key"></param>
         /// <param name="param"></param>
         /// <returns></returns>
-        public static IEnumerable<T> Query<T>(this BaseModel that, string key, object param)
+        public static IEnumerable<TQuery> Query<TQuery, TParams>(this BaseModel that, string key, TParams param) where TParams : class
         {
             var sql = SqlMapper.Get(key, param);
 
-            return DbContext.Query<T>(sql, param);
+            return DbContext.Query<TQuery>(sql, param);
         }
 
         /// <summary>
@@ -39,7 +40,7 @@ namespace Automata.MiniORM.Xml.Extension
         /// <param name="key"></param>
         /// <param name="param"></param>
         /// <returns></returns>
-        public static int Execute(this BaseModel that, string key, object param)
+        public static int Execute<TParams>(this BaseModel that, string key, TParams param) where TParams : class
         {
             var sql = SqlMapper.Get(key, param);
 
