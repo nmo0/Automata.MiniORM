@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<mapper xsi:noNamespaceSchemaLocation="../DTD/SqlMapper.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <select id="SampleSqlMapper_04" parameterType="Automata.MiniORM.Xml.Test2.SampleSqlMapper_01">
+    if out
+    <if test="args.no == &quot;1&quot;">
+      if 01
+      <if test="args.date.Length == 2">
+        if 02
+      </if>
+    </if>
+    if end
+  </select>
+</mapper>

@@ -15,6 +15,6 @@ namespace Automata.MiniORM.Xml
         void Init(string root, string[] xmlPath);
         void Init(string root, string[] dllPath, string[] xmlPath);
         void Load(string path);
-        void ReadXml(XmlElement ele, StringBuilder scriptCode);
+        void ReadXml(XmlElement ele, StringBuilder scriptCode, bool needSpace = false);
     }
 }

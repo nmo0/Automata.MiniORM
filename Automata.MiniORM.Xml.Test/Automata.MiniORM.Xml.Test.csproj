@@ -82,6 +82,7 @@
     <Content Include="Exports\CallbackManager.h" />
     <Content Include="Exports\VersionSymbols.h" />
     <Content Include="Xml\DotSample\DataBase.xml" />
+    <Content Include="Xml\DotSample\SampleSqlMapper_04.xml" />
     <Content Include="Xml\Sample\DataBase.xml" />
     <Content Include="Xml\DotSample\MySqlMapper.xml" />
     <Content Include="Xml\DotSample\SampleSqlMapper_01.xml" />

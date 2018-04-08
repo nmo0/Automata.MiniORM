@@ -60,6 +60,19 @@ namespace Automata.MiniORM.Xml.Test2
         }
 
         [TestMethod]
+        public void Dotnet_Sample04_Nesting()
+        {
+            var sql01 = SqlMapper.Get("SampleSqlMapper_04", new SampleSqlMapper_01 { no = "0" });
+            var sql02 = SqlMapper.Get("SampleSqlMapper_04", new SampleSqlMapper_01 { no = "1", date = string.Empty });
+
+            var sql03 = SqlMapper.Get("SampleSqlMapper_04", new SampleSqlMapper_01 { no = "1", date = "12" });
+
+            Assert.AreEqual(sql01, "if out if end");
+            Assert.AreEqual(sql02, "if out if 01 if end");
+            Assert.AreEqual(sql03, "if out if 01 if 02 if end");
+        }
+
+        [TestMethod]
         public void Dotnet_DataBase01Sql()
         {
             var model = new TestModel1();

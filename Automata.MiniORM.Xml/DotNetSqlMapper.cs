@@ -228,14 +228,14 @@ namespace Automata.MiniORM.Xml
             }
         }
 
-        public void ReadXml(XmlElement ele, StringBuilder scriptCode)
+        public void ReadXml(XmlElement ele, StringBuilder scriptCode, bool needSpace = false)
         {
             var eachIndex = 0;
             foreach (var child in ele.ChildNodes)
             {
                 if (child is XmlText)
                 {
-                    if (ele.ChildNodes.Count == 1 || eachIndex == 0)
+                    if ((ele.ChildNodes.Count == 1 || eachIndex == 0) && !needSpace)
                     {
                         scriptCode.AppendFormat("sql=sql+\"{0}\";", FilterExpression((child as XmlText).InnerText));
                     }
@@ -275,7 +275,11 @@ namespace Automata.MiniORM.Xml
                     {
                         var test = chi.GetAttribute("test");
 
-                        scriptCode.AppendFormat("if({0}){{sql=sql+\" {1}\";}}", test, FilterExpression(chi.InnerText));
+                        scriptCode.AppendFormat("if({0}){{", test);
+
+                        ReadXml(chi, scriptCode, true);
+
+                        scriptCode.AppendFormat("}}");
 
                     }
                     else if (chi.Name == "foreach")
