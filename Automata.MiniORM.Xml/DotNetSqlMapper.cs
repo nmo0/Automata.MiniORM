@@ -104,7 +104,9 @@ namespace Automata.MiniORM.Xml
                             "\tNumber: " + err.ErrorNumber +
                             "\t" + err.ErrorText);
                     }
-                    return stringBuilder.ToString();
+
+                    throw new Exception(stringBuilder.ToString());
+                    //return stringBuilder.ToString();
                 }
                 else
                 {
