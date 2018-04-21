@@ -62,21 +62,25 @@ namespace Automata.MiniORM.Xml
                 //objCompilerParameters.ReferencedAssemblies.Add("System.Core.dll");//
                 //objCompilerParameters.ReferencedAssemblies.Add("System.Xml.Linq.dll");//
 
+
                 if (_Dll == null)
                 {
                     _Dll = new List<string>();
                 }
 
-                _Dll.Add("System.dll");
-                _Dll.Add("Microsoft.CSharp.dll");
-                _Dll.Add("System.Core.dll");
-                _Dll.Add("System.Xml.Linq.dll");
+                var dllTemp = new List<string>();
+
+                dllTemp.Add("System.dll");
+                dllTemp.Add("Microsoft.CSharp.dll");
+                dllTemp.Add("System.Core.dll");
+                dllTemp.Add("System.Xml.Linq.dll");
 
                 var allRefrenced = ActivatorUtilities.GetAssemblyPaths();
 
-                _Dll.AddRange(allRefrenced);
+                dllTemp.AddRange(_Dll);
+                dllTemp.AddRange(allRefrenced);
 
-                objCompilerParameters.ReferencedAssemblies.AddRange(_Dll.Distinct().ToArray());
+                objCompilerParameters.ReferencedAssemblies.AddRange(dllTemp.Distinct().ToArray());
 
                 //objCompilerParameters.ReferencedAssemblies.Add("Automata.MiniORM.Xml.dll");
 
