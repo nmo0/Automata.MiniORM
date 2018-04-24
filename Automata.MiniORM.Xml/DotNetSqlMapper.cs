@@ -62,12 +62,21 @@ namespace Automata.MiniORM.Xml
 
                 var dllTemp = new List<string>();
 
+                dllTemp.AddRange(_Dll);
+
                 var assemblies = AppDomain.CurrentDomain.GetAssemblies();
 
-                var allRefrenced = assemblies.Select(m => m.Location).ToArray();
+                foreach (var item in assemblies)
+                {
+                    //动态程序集中不支持已调用的成员
+                    if (!item.IsDynamic)
+                    {
+                        dllTemp.Add(item.Location);
+                    }
+                }
 
-                dllTemp.AddRange(_Dll);
-                dllTemp.AddRange(allRefrenced);
+                //var allRefrenced = assemblies.Select(m => m.Location).ToArray();
+                //dllTemp.AddRange(allRefrenced);
 
                 objCompilerParameters.ReferencedAssemblies.AddRange(dllTemp.Distinct().ToArray());
 
