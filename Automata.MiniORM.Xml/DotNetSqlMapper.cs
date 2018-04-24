@@ -54,14 +54,6 @@ namespace Automata.MiniORM.Xml
             {
                 CSharpCodeProvider objCSharpCodePrivoder = new CSharpCodeProvider();
                 CompilerParameters objCompilerParameters = new CompilerParameters();
-                //添加引用
-                //data.ReferencedAssemblies.ForEach(m => objCompilerParameters.ReferencedAssemblies.Add(m));
-
-                //objCompilerParameters.ReferencedAssemblies.Add("System.dll");//System.Xml.Linq.dll 
-                //objCompilerParameters.ReferencedAssemblies.Add("Microsoft.CSharp.dll");//System.Xml.Linq.dll 
-                //objCompilerParameters.ReferencedAssemblies.Add("System.Core.dll");//
-                //objCompilerParameters.ReferencedAssemblies.Add("System.Xml.Linq.dll");//
-
 
                 if (_Dll == null)
                 {
@@ -70,30 +62,19 @@ namespace Automata.MiniORM.Xml
 
                 var dllTemp = new List<string>();
 
-                dllTemp.Add("System.dll");
-                dllTemp.Add("Microsoft.CSharp.dll");
-                dllTemp.Add("System.Core.dll");
-                dllTemp.Add("System.Xml.Linq.dll");
+                var assemblies = AppDomain.CurrentDomain.GetAssemblies();
 
-                var allRefrenced = ActivatorUtilities.GetAssemblyPaths();
+                var allRefrenced = assemblies.Select(m => m.Location).ToArray();
 
                 dllTemp.AddRange(_Dll);
                 dllTemp.AddRange(allRefrenced);
 
                 objCompilerParameters.ReferencedAssemblies.AddRange(dllTemp.Distinct().ToArray());
 
-                //objCompilerParameters.ReferencedAssemblies.Add("Automata.MiniORM.Xml.dll");
-
-
                 objCompilerParameters.GenerateExecutable = false;
                 objCompilerParameters.GenerateInMemory = true;
-                //objCompilerParameters.GenerateExecutable = true;
-                //objCompilerParameters.OutputAssembly = outputAssembly;
-                //objCompilerParameters.MainClass
 
-                // 4.CompilerResults
                 CompilerResults cr = objCSharpCodePrivoder.CompileAssemblyFromSource(objCompilerParameters, code.ScriptCode);
-
 
                 if (cr.Errors.HasErrors)
                 {
@@ -110,18 +91,14 @@ namespace Automata.MiniORM.Xml
                     }
 
                     throw new Exception(stringBuilder.ToString());
-                    //return stringBuilder.ToString();
                 }
                 else
                 {
                     code.Assembly = cr.CompiledAssembly;
                 }
-
-
             }
 
             var type = code.Assembly.GetType("Automata.MiniORM.Xml.Render_" + code.Id);
-
 
             var instance = Activator.CreateInstance(type);
 

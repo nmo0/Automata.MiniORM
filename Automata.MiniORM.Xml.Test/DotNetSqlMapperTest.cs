@@ -22,7 +22,6 @@ namespace Automata.MiniORM.Xml.Test2
             SqlMapper = sqlMapper;
 
             SqlMapper.Init(@"../../Xml/DotSample", new string[] {
-                "Automata.MiniORM.Xml.Test.dll"
             }, null);
         }
 
