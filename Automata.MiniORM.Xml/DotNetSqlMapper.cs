@@ -66,11 +66,15 @@ namespace Automata.MiniORM.Xml
 
                 var assemblies = AppDomain.CurrentDomain.GetAssemblies();
 
+                //可能因为LoadAssemblie(from file)会导致加载重复的dll到AppDomain, 暂时加一个判断解决这个bug
+                var alreadyLoadAssemblies = new List<string>();
+
                 foreach (var item in assemblies)
                 {
                     //动态程序集中不支持已调用的成员
-                    if (!item.IsDynamic)
+                    if (!item.IsDynamic && !alreadyLoadAssemblies.Contains(item.FullName))
                     {
+                        alreadyLoadAssemblies.Add(item.FullName);
                         dllTemp.Add(item.Location);
                     }
                 }
