@@ -17,6 +17,8 @@ namespace Automata.MiniORM.Xml
         private Dictionary<string, SqlInfo> _SqlCache;
         private List<string> _Dll;
 
+        private Action<string, object> _log;
+
         public DotNetSqlMapper()
         {
             _SqlCache = new Dictionary<string, SqlInfo>();
@@ -119,7 +121,14 @@ namespace Automata.MiniORM.Xml
 
             var result = method.Invoke(instance, new object[] { param });
 
-            return result.ToString();
+            var sql = result.ToString();
+
+            if (_log != null)
+            {
+                _log(sql, param);
+            }
+
+            return sql;
         }
 
         public string GetScript(string key)
@@ -325,6 +334,11 @@ namespace Automata.MiniORM.Xml
 
                 eachIndex++;
             }
+        }
+
+        public void SetLog(Action<string, object> logFunc)
+        {
+            _log += logFunc;
         }
     }
 }

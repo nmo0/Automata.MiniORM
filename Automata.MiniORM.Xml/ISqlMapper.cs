@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 using System.Xml;
 
 namespace Automata.MiniORM.Xml
@@ -16,5 +17,7 @@ namespace Automata.MiniORM.Xml
         void Init(string root, string[] dllPath, string[] xmlPath);
         void Load(string path);
         void ReadXml(XmlElement ele, StringBuilder scriptCode, bool needSpace = false);
+
+        void SetLog(Action<string, object> logFunc);
     }
 }
